@@ -1,5 +1,5 @@
 {
-  "name": "hanzo-securitytoken",
+  "name": "hanzo-st",
   "version": "0.1.0",
   "description": "Hanzo's security token contracts for the Hanzo Platform.",
   "main": "truffle.js",
