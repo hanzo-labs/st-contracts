@@ -47,6 +47,30 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
         return isApproved(from) && isApproved(to);
     }
 
+    /// @notice Detects if a transfer will be reverted and if so returns an appropriate reference code
+    /// @param from Sending address
+    /// @param to Receiving address
+    /// @param value Amount of tokens being transferred
+    /// @return Code by which to reference message for rejection reasoning
+    function detectTransferRestriction (address from, address to, uint256 value) public view returns (uint8) {
+        if (verifyTransfer(from, to, value, "")) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    /// @notice Returns a human-readable message for a given restriction code
+    /// @param restrictionCode Identifier for looking up a message
+    /// @return Text showing the restriction's reasoning
+    function messageForTransferRestriction (uint8 restrictionCode) public pure returns (string memory) {
+        if (restrictionCode == 0) {
+            return "SUCCESS";
+        } else {
+            return "FAILURE";
+        }
+    }
+
     /// @dev Transfer a token to a specified address
     ///
     /// Transfer conditions:
@@ -59,6 +83,7 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     /// @param value amount to transfer
     /// @return bool
     function transfer(address to, uint value) public returns (bool) {
+        require(value > 0);
         require(to != address(0));
         require(isApproved(to));
         return super.transfer(to, value);
@@ -70,6 +95,7 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     /// @param value uint256 the amount of tokens to be transferred
     /// @return bool
     function transferFrom(address from, address to, uint256 value) public returns (bool) {
+        require(value > 0);
         require(to != address(0));
         require(verifyTransfer(from, to, value, ""));
         return super.transferFrom(from, to, value);
