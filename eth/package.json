@@ -1,0 +1,77 @@
+{
+  "name": "hanzo-securitytoken",
+  "version": "0.1.0",
+  "description": "Hanzo's security token contracts for the Hanzo Platform.",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "sake test"
+  },
+  "author": "Hanzo, Inc <hi@hanzo.ai> (https://hanzo.ai)",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "hanzo-solidity": "^0.2.1",
+    "openzeppelin-solidity": "^2.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanzoai/st-contracts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hanzoai/st-contracts/issues"
+  },
+  "homepage": "https://github.com/hanzoai/st-contracts#readme",
+  "keywords": [
+    "blockchain",
+    "digital securities",
+    "ethereum",
+    "hanzo",
+    "security tokens",
+    "smart",
+    "solidity",
+    "stablecoin",
+    "web3"
+  ],
+  "devDependencies": {
+    "sake-cli": "^0.7.2",
+    "sake-outdated": "^0.4.4",
+    "sake-publish": "^0.1.17",
+    "sake-version": "^0.1.19",
+    "solc": "^0.5.3",
+    "solium": "^1.2.2",
+    "solium-plugin-security": "^0.1.1",
+    "truffle": "^5.0.3",
+    "truffle-contract": "^4.0.4",
+    "truffle-hdwallet-provider": "^1.0.3",
+    "web3": "^1.0.0-beta.41"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "node": true
+    },
+    "globals": {
+      "artifacts": true,
+      "assert": true,
+      "before": true,
+      "contract": true,
+      "it": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 8
+    },
+    "rules": {
+      "no-console": "off",
+      "indent": [
+        "error",
+        2
+      ],
+      "semi": [
+        2,
+        "never"
+      ]
+    }
+  }
+}

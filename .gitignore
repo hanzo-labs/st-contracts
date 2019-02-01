@@ -1,0 +1,5 @@
+eth/node_modules
+eth/package-lock.json
+eth/build
+eth/secrets.js
+eos/securitytoken
