@@ -1,7 +1,3 @@
-/**
- *  @file
- *  @copyright defined LICENSE
- */
 #pragma once
 
 #include <eosiolib/asset.hpp>
