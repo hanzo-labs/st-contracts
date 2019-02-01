@@ -9,17 +9,19 @@ module.exports = function(deployer, network, [owner]) {
       from: owner,
     })
 
-    // Deploy public-facing proxy contract
-    const token = await deployer.deploy(USTreasuryToken, registry.address, {
-      from: owner,
-    })
-
     // Deploy security token implementation
-    const version = await deployer.deploy(SecurityToken, registry.address, {
+    const version = await deployer.deploy(SecurityToken, {
       from: owner,
     })
 
-    // Set initial security contract implementation version
-    await token.setVersion(version.address)
+    await version.setRegistry(registry.address)
+
+    // // Deploy public-facing proxy contract
+    // const contract = await deployer.deploy(USTreasuryToken, version.address, {
+    //   from: owner,
+    // })
+
+    // const token = await SecurityToken.at(contract.address)
+    // await token.setRegistry(registry.address)
   })
 }

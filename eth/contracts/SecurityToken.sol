@@ -12,18 +12,19 @@ import "./Registry.sol";
 contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     using SafeMath for uint256;
 
-    Registry public registry;
+    address public registryAddress;
 
-    // @dev Implement version so that this can be properly set on proxy
-    // contract as underlying implementation.
-    function version() public pure returns (string memory) {
-        return "0.1.0";
-    }
+    string public constant name     = "US Treasury Token";
+    string public constant symbol   = "USTR";
+    uint8  public constant decimals = 18;
 
-    /// @dev Instantiate token and set registry address
-    constructor (address registryAddress) Ownable() public {
-        require(registryAddress != address(0));
-        registry = Registry(registryAddress);
+    /// @dev Instantiate token implementation and set owner
+    constructor () Ownable() public {}
+
+    /// @dev Set address of registry to use for KYC/AML/regulatory controls
+    function setRegistry(address _registryAddress) public {
+        require(_registryAddress != address(0));
+        registryAddress = _registryAddress;
     }
 
     /// @dev Modifier to ensure contract is not paused and sender is approved
@@ -40,7 +41,7 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     /// @param addr Address to check against registry
     function isApproved(address addr) public view returns (bool) {
         require(addr != address(0));
-        return registry.isApproved(addr);
+        return Registry(registryAddress).isApproved(addr);
     }
 
     /// @dev Transfer a token to a specified address
