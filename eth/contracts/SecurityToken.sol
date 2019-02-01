@@ -22,26 +22,29 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     constructor () Ownable() public {}
 
     /// @dev Set address of registry to use for KYC/AML/regulatory controls
-    function setRegistry(address _registryAddress) public {
-        require(_registryAddress != address(0));
-        registryAddress = _registryAddress;
+    function setRegistry(address addr) onlyOwner public {
+        require(addr != address(0));
+        registryAddress = addr;
     }
 
-    /// @dev Modifier to ensure contract is not paused and sender is approved
-    /// by registry.
-    modifier unpausedAndApproved() {
-        require(
-            isOwner() || !paused() && isApproved(msg.sender),
-            "contract paused or sender is not in whitelist"
-        );
-        _;
-    }
-
-    /// @dev Determine whether a transfer is approved by registry service.
+    /// @dev Determine whether transfers to/from a given address has been approved by the registry service.
     /// @param addr Address to check against registry
+    /// @return bool
     function isApproved(address addr) public view returns (bool) {
         require(addr != address(0));
         return Registry(registryAddress).isApproved(addr);
+    }
+
+    /// @notice Validates a transfer against KYC/AML registry
+    /// @dev Principally used for compatibility with ST-20
+    /// @param from sender of transfer
+    /// @param to receiver of transfer
+    /// @param value value of transfer
+    /// @param data data to indicate validation
+    /// @return bool
+    function verifyTransfer(address from, address to, uint256 value, bytes memory data) public view returns (bool) {
+        require(value > 0 || data.length > 0);
+        return isApproved(from) && isApproved(to);
     }
 
     /// @dev Transfer a token to a specified address
@@ -52,18 +55,23 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     ///  - msg.sender must be whitelisted previously by KYC/AML process
     ///  - contract must be unpaused
     ///
-    /// @param _to address to transfer to
-    /// @param _value amount to transfer
-    function transfer(
-        address _to,
-        uint _value
-    )
-        public
-        unpausedAndApproved()
-        returns (bool)
-    {
-        require(_to != address(0));
-        require(msg.sender != address(0));
-        return super.transfer(_to, _value);
+    /// @param to address to transfer to
+    /// @param value amount to transfer
+    /// @return bool
+    function transfer(address to, uint value) public returns (bool) {
+        require(to != address(0));
+        require(isApproved(to));
+        return super.transfer(to, value);
+    }
+
+    /// @dev Transfer tokens from one address to another
+    /// @param from address The address which you want to send tokens from
+    /// @param to address The address which you want to transfer to
+    /// @param value uint256 the amount of tokens to be transferred
+    /// @return bool
+    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+        require(to != address(0));
+        require(verifyTransfer(from, to, value, ""));
+        return super.transferFrom(from, to, value);
     }
 }
