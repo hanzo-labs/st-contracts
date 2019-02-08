@@ -15,7 +15,7 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
     address public registryAddress;
 
     string public constant name     = "US Treasury Token";
-    string public constant symbol   = "USTR";
+    string public constant symbol   = "UST";
     uint8  public constant decimals = 18;
 
     /// @dev Instantiate token implementation and set owner

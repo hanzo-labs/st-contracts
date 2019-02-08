@@ -6,7 +6,7 @@ import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract USTreasuryToken is Versioned {
     string public constant name     = "US Treasury Token";
-    string public constant symbol   = "USTR";
+    string public constant symbol   = "UST";
     uint8  public constant decimals = 18;
 
     constructor (address initialVersion) Ownable() public {
