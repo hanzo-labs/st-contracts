@@ -32,8 +32,8 @@ module.exports = {
     ropsten: {
       network_id: 3,
       provider: () => ropstenProvider,
-      gas: 4500000,
-      gasPrice: utils.toWei ('100', 'gwei'),
+      gas: 6000000,
+      gasPrice: utils.toWei ('100', 'wei'),
     },
   },
   mocha: {

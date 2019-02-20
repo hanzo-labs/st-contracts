@@ -1,4 +1,4 @@
-const USTreasuryToken = artifacts.require("./USTreasuryToken.sol")
+// const USTreasuryToken = artifacts.require("./USTreasuryToken.sol")
 const SecurityToken   = artifacts.require("./SecurityToken.sol")
 const Registry        = artifacts.require("./Registry.sol")
 
@@ -14,7 +14,7 @@ module.exports = function(deployer, network, [owner]) {
       from: owner,
     })
 
-    await version.setRegistry(registry.address)
+    // await version.setRegistry(registry.address)
 
     // // Deploy public-facing proxy contract
     // const contract = await deployer.deploy(USTreasuryToken, version.address, {
