@@ -27,7 +27,8 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
         registryAddress = addr;
     }
 
-    /// @dev Determine whether transfers to/from a given address has been approved by the registry service.
+    /// @dev Determine whether transfers to/from a given address has been
+    //       approved by the registry service.
     /// @param addr Address to check against registry
     /// @return bool
     function isApproved(address addr) public view returns (bool) {
@@ -35,8 +36,8 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
         return Registry(registryAddress).isApproved(addr);
     }
 
+    /// @dev Implemented to meet ST-20
     /// @notice Validates a transfer against KYC/AML registry
-    /// @dev Principally used for compatibility with ST-20
     /// @param from sender of transfer
     /// @param to receiver of transfer
     /// @param value value of transfer
@@ -47,7 +48,9 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
         return isApproved(from) && isApproved(to);
     }
 
-    /// @notice Detects if a transfer will be reverted and if so returns an appropriate reference code
+    /// @dev Implemented to meet ERC-1404 Simple Restricted Token Standard.
+    /// @notice Detects if a transfer will be reverted and if so returns an
+    ///         appropriate reference code.
     /// @param from Sending address
     /// @param to Receiving address
     /// @param value Amount of tokens being transferred
@@ -60,6 +63,7 @@ contract SecurityToken is ERC20Burnable, ERC20Mintable, ERC20Pausable, Ownable {
         }
     }
 
+    /// @dev ERC-1404 Simple Restricted Token Standard.
     /// @notice Returns a human-readable message for a given restriction code
     /// @param restrictionCode Identifier for looking up a message
     /// @return Text showing the restriction's reasoning
